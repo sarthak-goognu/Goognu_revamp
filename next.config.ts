@@ -1,7 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  output: "export",
+  basePath: "/goognu-revamp",
+  images: {
+    unoptimized: true,
+  },
 };
 
 export default nextConfig;
