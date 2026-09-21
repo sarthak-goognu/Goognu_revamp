@@ -1,0 +1,49 @@
+name: Deploy Next.js to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Download the code from the repository
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      # Install Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+
+      # Install dependencies
+      - name: Install dependencies
+        run: npm ci
+
+      # Build the Next.js project
+      - name: Build
+        run: npm run build
+
+      # Configure GitHub Pages
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      # Upload the generated "out" folder
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: ./out
+
+      # Deploy the website
+      - name: Deploy
+        uses: actions/deploy-pages@v4
